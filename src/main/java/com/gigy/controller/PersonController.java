@@ -1,5 +1,6 @@
 package com.gigy.controller;
 
+import java.security.Principal;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,10 +41,15 @@ public class PersonController {
 	}
 
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Void> deletePerson(@PathVariable long id) {
-		personRepo.delete(id);
-		
-		return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<Void> deletePerson(@PathVariable long id, Principal principal) {
+		Person currentPerson = personRepo.findByUsername(principal.getName());
+
+		if (currentPerson.getId() == id) {
+			personRepo.delete(id);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
 	}
 	
 	@GetMapping(value = "/{id}/parties")

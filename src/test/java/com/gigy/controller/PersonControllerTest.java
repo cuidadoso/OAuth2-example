@@ -46,15 +46,17 @@ public class PersonControllerTest {
 	@Test
 	public void getPersonTest() throws Exception {
 		given(personRepo.findOne(1L)).willReturn(person);
-		mvc.perform(get("/people/1").accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk())
-				.andExpect(jsonPath("$.id", is(1)))
-				.andExpect(jsonPath("$.name", is("John")))
-				.andExpect(jsonPath("$.age", is(25)));
+		mvc.perform(get("/people/1").accept(MediaType.APPLICATION_JSON_VALUE))
+		   .andExpect(status().isOk())
+		   .andExpect(jsonPath("$.id", is(1)))
+		   .andExpect(jsonPath("$.name", is("John")))
+		   .andExpect(jsonPath("$.age", is(25)));
 	}
 	
 	@Test
 	public void personNotFoundTest() throws Exception {
-		mvc.perform(get("/people/2").accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isNotFound());
+		mvc.perform(get("/people/2").accept(MediaType.APPLICATION_JSON_VALUE))
+		   .andExpect(status().isNotFound());
 	}
 	
 	@Test
@@ -63,10 +65,11 @@ public class PersonControllerTest {
 		people.add(person);
 		
 		given(personRepo.findAll()).willReturn(people);
-		mvc.perform(get("/people").accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk())
-				.andExpect(jsonPath("$[0].id", is(1)))
-				.andExpect(jsonPath("$[0].name", is("John")))
-				.andExpect(jsonPath("$[0].age", is(25)));
+		mvc.perform(get("/people").accept(MediaType.APPLICATION_JSON_VALUE))
+		   .andExpect(status().isOk())
+		   .andExpect(jsonPath("$[0].id", is(1)))
+		   .andExpect(jsonPath("$[0].name", is("John")))
+		   .andExpect(jsonPath("$[0].age", is(25)));
 	}
 
 }

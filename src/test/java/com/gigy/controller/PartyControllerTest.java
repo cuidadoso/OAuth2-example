@@ -45,14 +45,16 @@ public class PartyControllerTest {
 	@Test
 	public void getPartyTest() throws Exception {
 		given(partyRepo.findOne(1L)).willReturn(party);
-		mvc.perform(get("/parties/1").accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk())
-				.andExpect(jsonPath("$.id", is(1)))
-				.andExpect(jsonPath("$.location", is("Garden")));
+		mvc.perform(get("/parties/1").accept(MediaType.APPLICATION_JSON_VALUE))
+		   .andExpect(status().isOk())
+		   .andExpect(jsonPath("$.id", is(1)))
+		   .andExpect(jsonPath("$.location", is("Garden")));
 	}
 	
 	@Test
 	public void partyNotFoundTest() throws Exception {
-		mvc.perform(get("/parties/2").accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isNotFound());
+		mvc.perform(get("/parties/2").accept(MediaType.APPLICATION_JSON_VALUE))
+		   .andExpect(status().isNotFound());
 	}
 	
 	@Test
@@ -61,9 +63,10 @@ public class PartyControllerTest {
 		parties.add(party);
 		
 		given(partyRepo.findAll()).willReturn(parties);
-		mvc.perform(get("/parties").accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk())
-				.andExpect(jsonPath("$[0].id", is(1)))
-				.andExpect(jsonPath("$[0].location", is("Garden")));
+		mvc.perform(get("/parties").accept(MediaType.APPLICATION_JSON_VALUE))
+		   .andExpect(status().isOk())
+		   .andExpect(jsonPath("$[0].id", is(1)))
+		   .andExpect(jsonPath("$[0].location", is("Garden")));
 	}
 
 }
